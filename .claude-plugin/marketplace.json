@@ -1,0 +1,12 @@
+{
+  "name": "jack-agent-skills",
+  "owner": {
+    "name": "Jack Moore",
+    "email": ""
+  },
+  "metadata": {
+    "description": "Jack's custom agent skills for Claude",
+    "version": "1.0.0"
+  },
+  "plugins": []
+}
