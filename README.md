@@ -52,13 +52,18 @@ See the [Agent Skills spec](https://github.com/anthropics/skills/blob/main/spec/
 
 ### [`data-modeler`](./skills/data-modeler/SKILL.md)
 
-An interactive agent skill for relational database schema design. Guides you through a structured 6-phase workflow:
+An interactive agent skill for relational database schema design and migration. Guides you through a structured 5-phase workflow, scaled to task complexity:
 
 1. **Capture Requirements** — entities, attributes, relationships, access patterns, scale
-2. **Understand Existing Schema** — analyzes migrations, ORM models, and naming conventions
-3. **Normalization** — applies 1NF/2NF/3NF with reasoned denormalization where justified
-4. **Review** — full schema proposal with constraints, indexes, FK actions, and open questions
-5. **Preview** — Mermaid ERD diagram of the approved schema
-6. **Migration** — generates migration files for Prisma, Knex, Rails, Django, Alembic, Drizzle, TypeORM, or raw SQL
+2. **Understand Existing Schema** — brownfield scanning of migrations, ORM models, and naming conventions
+3. **Validate & Refine** — normalization review, design-principles check, design-linter sub-agent
+4. **Present for Approval** — full schema proposal with constraints, indexes, FK actions, ERD, and open questions
+5. **Migration** — generates migration files for Prisma, Knex.js, Rails, Django, Alembic, Drizzle, TypeORM, raw SQL (PostgreSQL/MySQL), and more
 
-Triggers on: database modeling, schema design, adding tables/relationships, planning migrations, ERD creation, or any discussion of entities and normalization.
+**Sub-agents**: `schema-scanner` (brownfield analysis), `design-linter` (mechanical schema validation), `migration-writer` (framework-specific file generation)
+
+**Reference library**: design principles, multi-tenancy patterns, polymorphic associations, table partitioning, hierarchical data (adjacency list / materialized path / closure table), zero-downtime migrations
+
+**Framework support**: PostgreSQL, MySQL, SQLite, SQL Server — including Go ecosystem (golang-migrate, goose, Ent, GORM, sqlc, Atlas)
+
+Triggers on: database modeling, schema design, adding tables/relationships, planning migrations, ERD creation, or any discussion of entities, foreign keys, or normalization.
