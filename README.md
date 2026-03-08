@@ -24,13 +24,13 @@ Skills are folders of instructions, scripts, and resources that Claude loads dyn
 Register this repository as a plugin marketplace:
 
 ```
-/plugin marketplace add <your-github-username>/skills
+/plugin marketplace add jtmthf/skills
 ```
 
 Then install a plugin:
 
 ```
-/plugin install my-plugin@jack-agent-skills
+/plugin install my-plugin@jtmthf-skills
 ```
 
 ## Skill Format
@@ -47,3 +47,18 @@ Instructions for Claude to follow when this skill is active.
 ```
 
 See the [Agent Skills spec](https://github.com/anthropics/skills/blob/main/spec/agent-skills-spec.md) and [Anthropic docs](https://support.claude.com/en/articles/12512198-creating-custom-skills) for more detail.
+
+## Available Skills
+
+### [`data-modeler`](./skills/data-modeler/SKILL.md)
+
+An interactive agent skill for relational database schema design. Guides you through a structured 6-phase workflow:
+
+1. **Capture Requirements** — entities, attributes, relationships, access patterns, scale
+2. **Understand Existing Schema** — analyzes migrations, ORM models, and naming conventions
+3. **Normalization** — applies 1NF/2NF/3NF with reasoned denormalization where justified
+4. **Review** — full schema proposal with constraints, indexes, FK actions, and open questions
+5. **Preview** — Mermaid ERD diagram of the approved schema
+6. **Migration** — generates migration files for Prisma, Knex, Rails, Django, Alembic, Drizzle, TypeORM, or raw SQL
+
+Triggers on: database modeling, schema design, adding tables/relationships, planning migrations, ERD creation, or any discussion of entities and normalization.

@@ -1,5 +1,5 @@
 {
-  "name": "jack-agent-skills",
+  "name": "jtmthf-skills",
   "owner": {
     "name": "Jack Moore",
     "email": ""
@@ -8,5 +8,11 @@
     "description": "Jack's custom agent skills for Claude",
     "version": "1.0.0"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "data-modeler",
+      "path": "skills/data-modeler",
+      "description": "Interactive data modeling skill for relational databases. Walks through requirements, schema analysis, normalization, review, ERD preview, and migration generation."
+    }
+  ]
 }
