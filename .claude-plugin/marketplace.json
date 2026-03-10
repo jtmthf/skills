@@ -11,8 +11,17 @@
   "plugins": [
     {
       "name": "data-modeler",
-      "path": "skills/data-modeler",
-      "description": "Interactive data modeling skill for relational databases. Walks through requirements, schema analysis, normalization, review, ERD preview, and migration generation."
+      "description": "Interactive data modeling skill for relational databases. Walks through requirements, schema analysis, normalization, review, ERD preview, and migration generation.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/data-modeler"]
+    },
+    {
+      "name": "voice-writer",
+      "description": "Writes in a personalized voice and style. Drafts messages, proposals, announcements, articles, and other text matching the author's tone, vocabulary, and formatting preferences. Includes banned phrase enforcement, content type routing, and self-review critic loop.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/voice-writer"]
     }
   ]
 }

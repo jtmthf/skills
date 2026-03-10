@@ -67,3 +67,19 @@ An interactive agent skill for relational database schema design and migration. 
 **Framework support**: PostgreSQL, MySQL, SQLite, SQL Server — including Go ecosystem (golang-migrate, goose, Ent, GORM, sqlc, Atlas)
 
 Triggers on: database modeling, schema design, adding tables/relationships, planning migrations, ERD creation, or any discussion of entities, foreign keys, or normalization.
+
+### [`voice-writer`](./skills/voice-writer/SKILL.md)
+
+A personalized writing voice skill that drafts text matching your tone, vocabulary, and formatting preferences. Ships configured for a specific author but is designed to be customized.
+
+**Workflow:**
+1. **Understand the Request** — routes to content type (announcement, proposal, article, guidance, update, message)
+2. **Draft** — writes following the voice profile's sentence patterns, tone, and structure
+3. **Critic Review** — self-reviews against banned phrases, voice profile, and formatting rules (up to 3 rounds)
+4. **Present** — delivers the final draft
+
+**Customizing for your voice:** Edit `reference/voice-profile.md` with your own sentence patterns, tone, vocabulary, and content types. Update `reference/banned-phrases.md` with phrases you want eliminated. The skill's Constraints in `SKILL.md` define formatting rules (no em dashes, no standalone greetings, etc.) which you can adjust to match your preferences.
+
+**Reference files**: voice profile (patterns and habits), banned phrases (~40 AI-isms and dead language), critic protocol (self-review quality bar)
+
+Triggers on: "write in my voice", "draft", "write this up", "announcement", "proposal", or when producing text meant to be sent or published.
