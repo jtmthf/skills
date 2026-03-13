@@ -22,6 +22,13 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/voice-writer"]
+    },
+    {
+      "name": "test-writer",
+      "description": "Writes tests for JavaScript and TypeScript code across frameworks (Jest, Vitest, Node test runner, Playwright, Storybook). Follows behavior-driven testing principles: tests user behavior not implementation details, uses Testing Library query priority, mocks at the network level with MSW, and writes flat self-contained tests.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/test-writer"]
     }
   ]
 }

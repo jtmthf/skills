@@ -83,3 +83,30 @@ A personalized writing voice skill that drafts text matching your tone, vocabula
 **Reference files**: voice profile (patterns and habits), banned phrases (~40 AI-isms and dead language), critic protocol (self-review quality bar)
 
 Triggers on: "write in my voice", "draft", "write this up", "announcement", "proposal", or when producing text meant to be sent or published.
+
+### [`test-writer`](./skills/test-writer/SKILL.md)
+
+An expert JavaScript/TypeScript test engineering skill. Writes tests that give real confidence by testing behavior from the user's perspective, not implementation details.
+
+**Core principles:**
+- Test behavior, not implementation — query by role, label, text; interact through clicks and typing
+- Integration tests by default (Testing Trophy over Testing Pyramid)
+- Use case coverage over code coverage
+- Fewer, longer tests with multiple assertions per workflow
+- One concept per test file (not 1:1 with source files)
+- Mock at the network level (MSW), not the module level
+- Prefer real browser testing (Vitest browser mode) over jsdom
+
+**Workflow:**
+1. **Detect Framework** — scans package.json, config files, and existing tests for conventions
+2. **Understand Code** — reads source to identify public API, dependencies, and edge cases
+3. **Write Tests** — flat structure, test context (`test.extend`) over lifecycle hooks, descriptive behavioral names
+4. **Review** — checks against 15-point quality checklist before presenting
+
+**Sub-agents**: `test-analyzer` (scans codebase for test setup and conventions), `test-writer` (writes test files autonomously)
+
+**Reference library**: best practices, React Testing Library, MSW, Vitest, Vitest browser mode, Jest, Node test runner, Playwright, Storybook
+
+**Framework support**: Vitest, Jest, Node built-in test runner, Playwright, React Testing Library, Vitest browser mode, Storybook interaction tests
+
+Triggers on: writing tests, adding test coverage, testing components/APIs/functions/hooks, fixing flaky tests, test strategy, or any mention of test frameworks and testing patterns.

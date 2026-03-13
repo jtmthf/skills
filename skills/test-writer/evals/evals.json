@@ -1,0 +1,73 @@
+{
+  "skill_name": "test-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write tests for this LoginForm component. It handles email/password login with validation, API calls, loading states, and error display. The project uses Vitest and React Testing Library. Here's the component:\n\nevals/files/LoginForm.tsx",
+      "expected_output": "A test file using behavioral testing patterns: getByRole queries, userEvent for interactions, MSW for API mocking, flat test structure with test context or setup helper",
+      "files": ["evals/files/LoginForm.tsx"],
+      "expectations": [
+        "Tests mock the API at the network level using MSW (http.post/http.get with HttpResponse) rather than mocking fetch or the API module with vi.mock",
+        "Test structure is flat — no nested describe blocks deeper than 1 level, uses test context (test.extend) or a setup helper function",
+        "Test names describe user-facing behavior (e.g., 'shows error when...' or 'redirects after...') not implementation details (e.g., 'calls onSuccess' or 'sets loading state')"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I need tests for this SearchPage component. It has a debounced search input that calls an API, shows loading/error/empty/results states. Uses the useDebounce hook. Project uses Vitest + React Testing Library. Write comprehensive tests.\n\nevals/files/SearchPage.tsx\nevals/files/useDebounce.ts",
+      "expected_output": "Tests that handle async behavior with debouncing, use fake timers correctly, mock the search API with MSW, and test the full search workflow",
+      "files": ["evals/files/SearchPage.tsx", "evals/files/useDebounce.ts"],
+      "expectations": [
+        "Tests use MSW (http.get with HttpResponse) to mock the /api/search endpoint rather than vi.mock on fetch or the search module",
+        "The debounced search workflow is tested as a complete flow (type → wait → see results) rather than testing the useDebounce hook in isolation with renderHook or vi.mock",
+        "Fake timer setup/teardown is in test context (test.extend), beforeEach/afterEach, or a setup helper — not done inline in each test body",
+        "Timer advancement uses vi.runAllTimersAsync() or vi.runOnlyPendingTimersAsync() rather than vi.advanceTimersByTime with a hardcoded duration"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write tests for these cart utility functions. Pure TypeScript functions for calculating subtotals, tax, totals, discounts, and currency formatting. Project uses Vitest.\n\nevals/files/cart-utils.ts",
+      "expected_output": "Unit tests split by concept across multiple test files, using test.each for parameterized cases",
+      "files": ["evals/files/cart-utils.ts"],
+      "expectations": [
+        "Uses test.each or similar parameterized pattern for testing multiple inputs against expected outputs rather than writing many separate identical test structures",
+        "Tests are split into multiple test files by concept (e.g., one per function or per related group) rather than one monolithic test file with describe blocks as file separators"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write tests for the UserSettings component. It loads user profile data from an API on mount, lets the user edit their name/bio and notification preferences, then saves via PUT. It handles loading, save success, and save error states. Project uses Vitest and React Testing Library.\n\nevals/files/UserSettings.tsx",
+      "expected_output": "Integration tests that render the component, wait for data to load from MSW, interact with form fields and checkboxes, save, and verify success/error messages",
+      "files": ["evals/files/UserSettings.tsx"],
+      "expectations": [
+        "Tests use MSW to mock both GET /api/user/profile (initial load) and PUT /api/user/profile (save) endpoints rather than mocking fetch or internal modules",
+        "Tests verify the loading state transitions: shows loading initially, then shows the form with loaded data — in the same test, not split across separate tests",
+        "The complete edit-and-save workflow is tested in a single test (load → edit fields → save → see success message) rather than splitting into many tiny tests",
+        "Tests verify the PUT request body contains the correct updated data (captured via MSW handler) rather than asserting on component internal state"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write tests for this Tooltip component. It shows a tooltip on hover/focus with a configurable delay and position. The tooltip uses getBoundingClientRect for positioning and CSS for visibility. The project uses Vitest browser mode with the Playwright provider. Here's the component:\n\nevals/files/Tooltip.tsx",
+      "expected_output": "Browser-mode tests using vitest-browser-react render, Locator API for interactions, expect.element() for assertions, testing hover/focus behavior with real browser rendering and proper timer handling",
+      "files": ["evals/files/Tooltip.tsx"],
+      "expectations": [
+        "Timer setup (vi.useFakeTimers) is in beforeEach or test context, not inline in each test body, and timer teardown (vi.useRealTimers) is in afterEach or test context",
+        "Timer advancement uses vi.runAllTimersAsync() or vi.runOnlyPendingTimersAsync() rather than vi.advanceTimersByTime with a hardcoded delay value — and timers are NOT sidestepped by passing delay:0",
+        "Assertions use expect.element() with toBeVisible() for visible elements rather than toBeInTheDocument()"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Write Playwright E2E tests for a checkout flow described in this specification. The app has product listing, cart, and checkout pages. Tests should cover the happy path from adding a product to order confirmation. The project already has Playwright configured.\n\nevals/files/checkout-flow.e2e-description.md",
+      "expected_output": "Playwright E2E tests using page objects combined with fixtures for clean architecture, API seeding for test data, accessible locators, and focused tests on the critical checkout path",
+      "files": ["evals/files/checkout-flow.e2e-description.md"],
+      "expectations": [
+        "Uses Playwright fixtures (test.extend) for authentication setup rather than clicking through login in each test",
+        "Test data is seeded via the /api/test/seed endpoint (direct API call) rather than navigating through UI to create test state",
+        "Uses page object classes combined with fixtures — page objects define locators and actions, fixtures inject them into tests via test.extend",
+        "The checkout flow is tested as a single end-to-end test with multiple assertions rather than split into disconnected steps"
+      ]
+    }
+  ]
+}
