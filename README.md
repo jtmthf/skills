@@ -110,3 +110,29 @@ An expert JavaScript/TypeScript test engineering skill. Writes tests that give r
 **Framework support**: Vitest, Jest, Node built-in test runner, Playwright, React Testing Library, Vitest browser mode, Storybook interaction tests
 
 Triggers on: writing tests, adding test coverage, testing components/APIs/functions/hooks, fixing flaky tests, test strategy, or any mention of test frameworks and testing patterns.
+
+### [`graphql-schema-designer`](./skills/graphql-schema-designer/SKILL.md)
+
+An opinionated GraphQL schema architect skill. Designs schemas that are discoverable, evolvable, and make invalid states unrepresentable.
+
+**Core principles:**
+- Domain mutations over CRUD — every mutation expresses a specific business operation, not generic `updateX`
+- Payload unions for expected errors — typed error members with a shared `Error` interface, not error arrays
+- Custom scalars for domain concepts — `UserId`, `Email`, `DateTime` instead of bare `ID` and `String`
+- Make invalid states unrepresentable — unions encode state machines instead of nullable conditionals
+- Idempotency keys for non-idempotent mutations
+
+**Workflow:**
+1. **Scan** — brownfield detection of existing schema, framework, and conventions
+2. **Design Types** — entities, enums, scalars, relationships
+3. **Design Queries** — noun-based with filters and connections
+4. **Design Mutations** — domain-specific with payload unions
+5. **Review** — check against core principles
+
+**Sub-agents**: `schema-scanner` (brownfield codebase analysis), `schema-reviewer` (structured review with Critical/Warning/Suggestion findings)
+
+**Reference library**: query and mutation design, error handling patterns, type design (nullability, connections, unions vs interfaces, enums), advanced patterns (async jobs, authorization modeling, file handling, subscriptions, schema evolution)
+
+**Framework support**: SDL files (.graphql/.gql), Pothos, Nexus, TypeGraphQL, gqlgen, Strawberry, Ariadne, graphql-ruby, Hot Chocolate, Juniper, and federation
+
+Triggers on: designing GraphQL schemas, adding types/queries/mutations, reviewing schema quality, refactoring CRUD to domain mutations, modeling entities as GraphQL types, or working with .graphql files.

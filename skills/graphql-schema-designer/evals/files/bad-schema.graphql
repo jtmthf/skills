@@ -1,0 +1,57 @@
+type Query {
+  getUserById(id: ID!): User
+  getUserByEmail(email: String!): User
+  getProjectById(id: ID!): Project
+  getAllProjects: [Project!]!
+  getTasksByProject(projectId: ID!): [Task!]!
+  searchUsers(query: String!): [User!]!
+}
+
+type Mutation {
+  createUser(name: String!, email: String!): User
+  updateUser(id: ID!, name: String, email: String, role: String): User
+  deleteUser(id: ID!): Boolean
+
+  createProject(name: String!, description: String, ownerId: ID!): Project
+  updateProject(id: ID!, name: String, description: String, status: String): Project
+
+  createTask(title: String!, projectId: ID!, assigneeId: ID): Task
+  updateTask(id: ID!, title: String, status: String, assigneeId: ID): Task
+  deleteTask(id: ID!): Boolean
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  role: String!
+  projects: [Project!]!
+  assignedTasks: [Task!]!
+  createdAt: String
+}
+
+type Project {
+  id: ID!
+  name: String!
+  description: String
+  status: String!
+  ownerId: ID!
+  owner: User!
+  members: [User!]!
+  tasks: [Task!]!
+  createdAt: String
+  updatedAt: String
+}
+
+type Task {
+  id: ID!
+  title: String!
+  description: String
+  status: String!
+  projectId: ID!
+  project: Project!
+  assigneeId: ID
+  assignee: User
+  createdAt: String
+  updatedAt: String
+}

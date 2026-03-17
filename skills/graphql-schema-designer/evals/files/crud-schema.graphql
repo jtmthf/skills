@@ -1,0 +1,36 @@
+type Query {
+  getTicket(id: ID!): Ticket
+  getAllTickets(status: String): [Ticket!]!
+}
+
+type Mutation {
+  createTicket(title: String!, description: String, assigneeId: ID): Ticket
+  updateTicket(id: ID!, title: String, description: String, status: String, assigneeId: ID): Ticket
+  deleteTicket(id: ID!): Boolean
+}
+
+type Ticket {
+  id: ID!
+  title: String!
+  description: String
+  status: String!
+  assigneeId: ID
+  assignee: User
+  createdAt: String
+  updatedAt: String
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  body: String!
+  authorId: ID!
+  author: User
+  createdAt: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}

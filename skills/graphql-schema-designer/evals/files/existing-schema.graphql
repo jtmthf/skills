@@ -1,0 +1,235 @@
+scalar UserId
+scalar ProjectId
+scalar TaskId
+scalar Email
+scalar DateTime
+scalar Cursor
+
+type Query {
+  user(id: UserId!): User
+  users(filter: UserFilterInput, first: Int, after: Cursor): UserConnection!
+  project(id: ProjectId!): Project
+  projects(filter: ProjectFilterInput, first: Int, after: Cursor): ProjectConnection!
+  task(id: TaskId!): Task
+}
+
+input UserFilterInput {
+  email: Email
+  search: String
+}
+
+input ProjectFilterInput {
+  status: ProjectStatus
+  search: String
+}
+
+type Mutation {
+  createProject(input: CreateProjectInput!): CreateProjectPayload!
+  archiveProject(input: ArchiveProjectInput!): ArchiveProjectPayload!
+  createTask(input: CreateTaskInput!): CreateTaskPayload!
+  assignTask(input: AssignTaskInput!): AssignTaskPayload!
+  changeTaskStatus(input: ChangeTaskStatusInput!): ChangeTaskStatusPayload!
+}
+
+input CreateProjectInput {
+  name: String!
+  description: String
+}
+
+union CreateProjectPayload =
+    CreateProjectSuccess
+  | ValidationError
+
+type CreateProjectSuccess {
+  project: Project!
+}
+
+input ArchiveProjectInput {
+  projectId: ProjectId!
+}
+
+union ArchiveProjectPayload =
+    ArchiveProjectSuccess
+  | ProjectNotFoundError
+  | NotAuthorizedError
+
+type ArchiveProjectSuccess {
+  project: Project!
+}
+
+input CreateTaskInput {
+  projectId: ProjectId!
+  title: String!
+  description: String
+}
+
+union CreateTaskPayload =
+    CreateTaskSuccess
+  | ProjectNotFoundError
+  | ValidationError
+
+type CreateTaskSuccess {
+  task: Task!
+}
+
+input AssignTaskInput {
+  taskId: TaskId!
+  assigneeId: UserId!
+}
+
+union AssignTaskPayload =
+    AssignTaskSuccess
+  | TaskNotFoundError
+  | UserNotFoundError
+  | NotAuthorizedError
+
+type AssignTaskSuccess {
+  task: Task!
+}
+
+input ChangeTaskStatusInput {
+  taskId: TaskId!
+  status: TaskStatus!
+}
+
+union ChangeTaskStatusPayload =
+    ChangeTaskStatusSuccess
+  | TaskNotFoundError
+  | InvalidStatusTransitionError
+
+type ChangeTaskStatusSuccess {
+  task: Task!
+}
+
+interface Error {
+  message: String!
+  code: String!
+}
+
+type ValidationError implements Error {
+  message: String!
+  code: String!
+  fieldErrors: [FieldError!]!
+}
+
+type FieldError {
+  path: [String!]!
+  message: String!
+  code: String!
+}
+
+type ProjectNotFoundError implements Error {
+  message: String!
+  code: String!
+  projectId: ProjectId!
+}
+
+type TaskNotFoundError implements Error {
+  message: String!
+  code: String!
+  taskId: TaskId!
+}
+
+type UserNotFoundError implements Error {
+  message: String!
+  code: String!
+  userId: UserId!
+}
+
+type NotAuthorizedError implements Error {
+  message: String!
+  code: String!
+  requiredPermission: String
+}
+
+type InvalidStatusTransitionError implements Error {
+  message: String!
+  code: String!
+  currentStatus: TaskStatus!
+  attemptedStatus: TaskStatus!
+}
+
+type User {
+  id: UserId!
+  name: String!
+  email: Email!
+  createdAt: DateTime!
+}
+
+type Project {
+  id: ProjectId!
+  name: String!
+  description: String
+  status: ProjectStatus!
+  owner: User!
+  members(first: Int, after: Cursor): UserConnection!
+  tasks(filter: TaskFilterInput, first: Int, after: Cursor): TaskConnection!
+  createdAt: DateTime!
+}
+
+input TaskFilterInput {
+  status: TaskStatus
+  assigneeId: UserId
+}
+
+type Task {
+  id: TaskId!
+  title: String!
+  description: String
+  status: TaskStatus!
+  project: Project!
+  assignee: User
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserEdge {
+  node: User!
+  cursor: Cursor!
+}
+
+type ProjectConnection {
+  edges: [ProjectEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ProjectEdge {
+  node: Project!
+  cursor: Cursor!
+}
+
+type TaskConnection {
+  edges: [TaskEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TaskEdge {
+  node: Task!
+  cursor: Cursor!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
+}

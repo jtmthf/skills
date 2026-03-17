@@ -1,0 +1,65 @@
+{
+  "skill_name": "graphql-schema-designer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design a GraphQL schema for a project management app. It needs users, projects, and tasks. Users can be assigned to projects and tasks. Tasks belong to a project and have statuses (todo, in progress, done). Users can create projects, create tasks, assign tasks, and change task status.",
+      "expected_output": "A complete GraphQL schema in SDL following best practices: noun-based queries with filters and connections, verb+noun mutations with single input args and payload unions, custom scalars for IDs, proper nullability, Error interface, documented types.",
+      "files": [],
+      "assertions": [
+        {"name": "uses-custom-scalars", "check": "Schema defines custom scalar types for IDs (e.g., UserId, ProjectId, TaskId) instead of bare ID"},
+        {"name": "noun-based-queries", "check": "Query fields use noun naming (user, users, project) not RPC-style (getUserById)"},
+        {"name": "verb-noun-mutations", "check": "Mutations use verb+noun naming (createProject, assignTask) not generic CRUD (updateTask)"},
+        {"name": "single-input-pattern", "check": "All mutations use (input: XxxInput!) pattern"},
+        {"name": "payload-unions", "check": "Mutations return union payload types with success and error members"},
+        {"name": "connection-pagination", "check": "Unbounded lists use Relay-style connection types"},
+        {"name": "error-interface", "check": "Defines an Error interface with message and code fields"},
+        {"name": "schema-documentation", "check": "Types and fields have triple-quote description strings"},
+        {"name": "no-foreign-key-ids", "check": "No xxxId fields alongside relationship object fields"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this GraphQL schema and tell me what's wrong with it and how to fix it.",
+      "expected_output": "A structured review identifying anti-patterns with concrete fixes.",
+      "files": ["evals/files/bad-schema.graphql"],
+      "assertions": [
+        {"name": "identifies-rpc-naming", "check": "Flags RPC-style query names (getUserById, getAllProjects, etc.)"},
+        {"name": "identifies-crud-mutations", "check": "Flags generic CRUD mutations (updateUser, updateTask) as lacking business intent and recommends domain-specific replacements"},
+        {"name": "identifies-missing-input-types", "check": "Flags positional mutation arguments"},
+        {"name": "identifies-foreign-key-ids", "check": "Flags foreign key ID fields that duplicate relationship fields"},
+        {"name": "identifies-bare-types", "check": "Flags String used for timestamps, statuses, roles, or IDs"},
+        {"name": "identifies-missing-pagination", "check": "Flags unbounded lists that should use connections"},
+        {"name": "identifies-missing-error-handling", "check": "Flags mutations returning bare types or Boolean instead of payload unions"},
+        {"name": "fixes-use-payload-unions", "check": "Corrected schema code uses payload union types (union keyword with success + error members), not a userErrors array pattern"}
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We have this ticket tracking schema. I need to add a 'time tracking' feature — users should be able to log time entries against tickets, and we need to query total time spent per ticket and per user. Please add the new types and mutations.",
+      "expected_output": "New types and mutations that follow best practices even though the existing schema does not — custom scalars, domain mutations, payload unions, connections.",
+      "files": ["evals/files/crud-schema.graphql"],
+      "assertions": [
+        {"name": "uses-custom-scalars-for-new-types", "check": "Defines custom scalar IDs for new entities (e.g., TimeEntryId) instead of bare ID, even though the existing schema uses bare ID"},
+        {"name": "domain-mutations-not-crud", "check": "Time tracking mutations use domain-specific names (e.g., logTimeEntry, not createTimeEntry/updateTimeEntry) with single input pattern"},
+        {"name": "payload-unions-for-new-mutations", "check": "New mutations return payload union types with success and error members, even though existing mutations return bare types"},
+        {"name": "error-interface", "check": "Defines or references an Error interface with message and code fields for error types"},
+        {"name": "connection-for-time-entries", "check": "Time entries on tickets use a connection type for pagination, not a bare list"},
+        {"name": "does-not-propagate-anti-patterns", "check": "New code does not follow the existing schema's anti-patterns (no bare ID for new types, no positional args, no bare return types)"}
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm using Pothos with TypeScript and Prisma. I need to add a 'workspace invitations' feature — workspace admins can invite users by email, invitees can accept or decline. An invitation expires after 7 days. Show me the Pothos type definitions.",
+      "expected_output": "Pothos builder code with typed IDs, domain mutations (inviteUserToWorkspace, acceptInvitation, declineInvitation), payload unions via Pothos union/error patterns, and proper TypeScript types.",
+      "files": [],
+      "assertions": [
+        {"name": "uses-pothos-builder", "check": "Output uses Pothos SchemaBuilder API (builder.objectType, builder.mutationField, builder.unionType, etc.)"},
+        {"name": "domain-mutations", "check": "Mutations are domain-specific (inviteUserToWorkspace, acceptInvitation, declineInvitation), not CRUD (createInvitation, updateInvitation)"},
+        {"name": "payload-unions-in-pothos", "check": "Mutations return union types defined via Pothos (builder.unionType or equivalent) with success and error members"},
+        {"name": "invitation-state-modeling", "check": "Invitation status is modeled with proper types — either an enum with expiration logic or a union/status field that distinguishes pending/accepted/declined/expired"},
+        {"name": "typescript-types", "check": "Includes TypeScript type definitions or interfaces alongside Pothos definitions"}
+      ]
+    }
+  ]
+}

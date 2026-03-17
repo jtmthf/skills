@@ -29,6 +29,13 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/test-writer"]
+    },
+    {
+      "name": "graphql-schema-designer",
+      "description": "Opinionated GraphQL schema design, review, and evolution. Designs schemas with domain mutations over CRUD, payload unions for error handling, custom scalars, and state machine unions. Supports SDL files, code-first frameworks (Pothos, Nexus, TypeGraphQL, gqlgen, Strawberry, graphql-ruby, Hot Chocolate, Juniper), and federation.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/graphql-schema-designer"]
     }
   ]
 }
