@@ -36,6 +36,13 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/graphql-schema-designer"]
+    },
+    {
+      "name": "graphite",
+      "description": "Stacked PR workflow using the Graphite CLI (gt). Creates, manages, and submits stacked pull requests — breaking features into small, reviewable increments under ~200 lines each. Supports Graphite MCP server for AI-native stacking, stack planning, and per-PR implementation. Triggers on: stacked PRs, gt commands, splitting large changes, syncing branches, or any mention of Graphite.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/graphite"]
     }
   ]
 }

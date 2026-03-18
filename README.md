@@ -136,3 +136,29 @@ An opinionated GraphQL schema architect skill. Designs schemas that are discover
 **Framework support**: SDL files (.graphql/.gql), Pothos, Nexus, TypeGraphQL, gqlgen, Strawberry, Ariadne, graphql-ruby, Hot Chocolate, Juniper, and federation
 
 Triggers on: designing GraphQL schemas, adding types/queries/mutations, reviewing schema quality, refactoring CRUD to domain mutations, modeling entities as GraphQL types, or working with .graphql files.
+
+### [`graphite`](./skills/graphite/SKILL.md)
+
+A stacked PR workflow skill using the Graphite CLI (`gt`). Helps you work in small, reviewable increments — each PR under ~200 lines — that build on each other and can be reviewed and merged independently.
+
+**Core principles:**
+- Think in stacks, not branches — every feature is a sequence of small, dependent PRs
+- Small PRs are non-negotiable — under 200 lines per PR
+- Use `gt` over `git` for commits, branches, and pushes to keep stack metadata consistent
+- Submit early, stack continuously — don't wait for PR 1 to merge before starting PR 2
+
+**Workflow:**
+1. **Triage** — scales approach to task size (quick change, small feature 2–3 PRs, large feature 4+ PRs)
+2. **Plan** — detects branch/commit conventions before creating anything
+3. **Stack** — creates branches with `gt create`, submits with `gt submit --stack`
+4. **Sync** — pulls trunk changes and restacks with `gt sync`
+
+**Build-then-stack support**: Develop on a single branch first, then use `gt split` to retroactively break it into a stack by file (`-f`), hunk (`-h`), or commit (`-c`).
+
+**Sub-agents**: `stack-planner` (decomposes features into reviewable PR stacks), `pr-implementer` (implements a single PR from a plan)
+
+**Graphite MCP integration**: When the Graphite MCP server is connected, prefers MCP tools for AI-native stacking over raw `gt` commands.
+
+**Reference library**: full `gt` command reference, stacking guide, common workflows (sync, rebase, handling review feedback, reordering)
+
+Triggers on: stacked PRs, `gt` commands, splitting large changes into a chain of PRs, syncing branches, or any mention of "graphite", "stacked diffs", or wanting to break a feature into reviewable pieces.

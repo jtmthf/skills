@@ -1,0 +1,20 @@
+{
+  "skill_name": "graphite",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I need to add a notifications system to our Next.js app. It needs a database table for notifications, a service to create/mark-read them, API routes, and a notifications dropdown in the navbar. Can you help me plan how to break this into stacked PRs using graphite and then start building it?",
+      "expected_output": "A detailed stack plan decomposing the feature into 4-6 small PRs ordered by dependency, followed by creation of the first branch using gt create"
+    },
+    {
+      "id": 1,
+      "prompt": "I'm in the middle of a stack and my reviewer left comments on the second PR asking me to rename the function from processOrder to handleOrderSubmission and add input validation. How do I make those changes without messing up the rest of my stack? I have 2 more PRs stacked on top.",
+      "expected_output": "Step-by-step instructions using gt checkout, making changes, gt modify -a, and gt submit --stack, with explanation that children auto-restack"
+    },
+    {
+      "id": 2,
+      "prompt": "I just came back from vacation and my graphite stacks are a mess. Some PRs merged while I was gone, trunk has moved forward, and I think I have conflicts. What's the workflow to get back to a clean state?",
+      "expected_output": "A recovery workflow using gt sync, handling conflicts with gt continue/abort, gt log to assess state, and cleanup of merged branches"
+    }
+  ]
+}
